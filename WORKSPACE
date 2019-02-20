@@ -49,9 +49,6 @@ load(
 # "repositories" function(s).
 container_repositories()
 
-
-
-
 ## Py_image
 
 load(
@@ -61,15 +58,12 @@ load(
 
 _py_image_repos()
 
-
 ## Python protobuf models
 git_repository(
     name = "dnos_core_grpc_python",
     commit = "13e81fa14df060100e0b98ace954d65701f97e61",
     remote = "https://github.com/dnosproject/dnos-core-grpc-python.git",
 )
-
-
 
 ### Python protobuf related dependencies
 load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
@@ -120,3 +114,19 @@ pip_import(
 load("@grpc_py_deps//:requirements.bzl", grpc_pip_install = "pip_install")
 
 grpc_pip_install()
+
+## Python third party libraries
+git_repository(
+    name = "dnos_core_tools_python",
+    commit = "9f20103531c648cef7fd99daea9cd66f2966ad4c",
+    remote = "https://github.com/dnosproject/dnos-core-tools-python.git",
+)
+
+pip_import(
+    name = "dnos_python_libs",
+    requirements = "@dnos_core_tools_python//:requirements.txt",
+)
+
+load("@dnos_python_libs//:requirements.bzl", _python_libraries_install = "pip_install")
+
+_python_libraries_install()
