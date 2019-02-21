@@ -2,6 +2,8 @@ import grpc
 import EventNotificationProto_pb2
 import ServicesProto_pb2_grpc
 import threading
+from ryu.lib.packet import packet
+import array
 
 # A Simple packet processor.
 def packetprocessor():
@@ -17,9 +19,16 @@ def packetprocessor():
      response = eventNotificationStub.register(request)
      eventObserver = eventNotificationStub.onEvent(topic)
 
-
      for event in eventObserver:
-          print(event)
+          pktContext = event.packetContext
+          if pktContext is None:
+              return
+          inboundPkt = pktContext.inboundPacket
+          pkt = packet.Packet(inboundPkt.data)
+          for p in pkt:
+              if type(p)!= str:
+                 if p.protocol_name == "ipv4":
+                     print("An IPv4 packet has been received")
      while True:
           continue
 
