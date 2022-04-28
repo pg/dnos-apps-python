@@ -106,3 +106,5 @@ venv.bak/
 
 bazel-*
 *.ijwb
+.idea
+.DS_Store
