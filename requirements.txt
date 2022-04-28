@@ -1,0 +1,4 @@
+python-openflow==2021.1
+ryu==4.34
+dnos==0.1.3
+grpcio==1.44.0
